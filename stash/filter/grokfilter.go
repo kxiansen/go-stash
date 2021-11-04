@@ -13,12 +13,11 @@ func GrokFilter(field, match_str string) FilterFunc {
 			return m
 		}
 
-		fmt.Println("val", val)
-
 		s, ok := val.(string)
 		if !ok {
 			return m
 		}
+		fmt.Println("ssssss", s)
 
 		var nm map[string]interface{}
 		if err := jsoniter.Unmarshal([]byte(s), &nm); err != nil {
