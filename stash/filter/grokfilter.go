@@ -13,6 +13,8 @@ func GrokFilter(field, match_str string) FilterFunc {
 			return m
 		}
 
+		fmt.Println("val", val)
+
 		s, ok := val.(string)
 		if !ok {
 			return m
@@ -23,7 +25,7 @@ func GrokFilter(field, match_str string) FilterFunc {
 			return m
 		}
 		fmt.Println(nm)
-		fmt.Println(s)
+		// fmt.Println(s)
 
 		// delete(m, field)
 		// if len(target) > 0 {
