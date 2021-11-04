@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	filterGrok         = "grok"
 	filterDrop         = "drop"
 	filterRemoveFields = "remove_field"
 	filterTransfer     = "transfer"
@@ -23,12 +24,14 @@ func CreateFilters(p config.Cluster) []FilterFunc {
 	var filters []FilterFunc
 
 	for _, f := range p.Filters {
-		json_str, err := json.Marshal(f)
+		filters_json, err := json.Marshal(f)
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(string(json_str))
+		fmt.Println(string(filters_json))
 		switch f.Action {
+		case filterGrok:
+			filters = append(filters, GrokFilter(f.Field, f.Match))
 		case filterDrop:
 			filters = append(filters, DropFilter(f.Conditions))
 		case filterRemoveFields:
@@ -36,6 +39,7 @@ func CreateFilters(p config.Cluster) []FilterFunc {
 		case filterTransfer:
 			filters = append(filters, TransferFilter(f.Field, f.Target))
 		}
+
 	}
 
 	return filters

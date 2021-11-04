@@ -29,6 +29,7 @@ type (
 		Fields     []string    `json:",optional"`
 		Field      string      `json:",optional"`
 		Target     string      `json:",optional"`
+		Match      string      `json:",optional"`
 	}
 
 	KafkaConf struct {
