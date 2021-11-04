@@ -1,6 +1,7 @@
 package filter
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/kevwan/go-stash/stash/config"
@@ -22,7 +23,11 @@ func CreateFilters(p config.Cluster) []FilterFunc {
 	var filters []FilterFunc
 
 	for _, f := range p.Filters {
-		fmt.Println(f)
+		json_str, err := json.Marshal(f)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(json_str))
 		switch f.Action {
 		case filterDrop:
 			filters = append(filters, DropFilter(f.Conditions))
