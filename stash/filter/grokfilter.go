@@ -1,10 +1,6 @@
 package filter
 
-import (
-	"fmt"
-
-	jsoniter "github.com/json-iterator/go"
-)
+import "regexp"
 
 func GrokFilter(field, match_str string) FilterFunc {
 	return func(m map[string]interface{}) map[string]interface{} {
@@ -17,13 +13,8 @@ func GrokFilter(field, match_str string) FilterFunc {
 		if !ok {
 			return m
 		}
-		fmt.Println("ssssss", s)
-
-		var nm map[string]interface{}
-		if err := jsoniter.Unmarshal([]byte(s), &nm); err != nil {
-			return m
-		}
-		fmt.Println(nm)
+		reg := regexp.Compile(match_str)
+		reg.search(s)
 		// fmt.Println(s)
 
 		// delete(m, field)
