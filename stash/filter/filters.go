@@ -1,6 +1,10 @@
 package filter
 
-import "github.com/kevwan/go-stash/stash/config"
+import (
+	"fmt"
+
+	"github.com/kevwan/go-stash/stash/config"
+)
 
 const (
 	filterDrop         = "drop"
@@ -18,6 +22,7 @@ func CreateFilters(p config.Cluster) []FilterFunc {
 	var filters []FilterFunc
 
 	for _, f := range p.Filters {
+		fmt.Println(f)
 		switch f.Action {
 		case filterDrop:
 			filters = append(filters, DropFilter(f.Conditions))
