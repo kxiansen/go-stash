@@ -14,6 +14,7 @@ const (
 	filterTransfer     = "transfer"
 	filterCopyField    = "copy_field"
 	filterReplaceStr   = "replace_str"
+	filterMutate       = "mutate"
 	opAnd              = "and"
 	opOr               = "or"
 	typeContains       = "contains"
@@ -44,6 +45,8 @@ func CreateFilters(p config.Cluster) []FilterFunc {
 			filters = append(filters, CopyFiledFilter(f.Field, f.Target))
 		case filterReplaceStr:
 			filters = append(filters, ReplaceStrFilter(f.Gsub))
+		case filterMutate:
+			filters = append(filters, MutateFilter(f.Add_fields))
 		}
 
 	}
