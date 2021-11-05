@@ -1,6 +1,7 @@
 package filter
 
 import (
+	"fmt"
 	"regexp"
 )
 
@@ -18,7 +19,7 @@ func GrokFilter(field, match_str string) FilterFunc {
 		re := regexp.MustCompile(match_str)
 		match := re.FindStringSubmatch(s)
 		groupNames := re.SubexpNames()
-		// fmt.Printf("%v,%v,%d,%d\n", match, groupNames, len(match), len(groupNames))
+		fmt.Printf("%v,%v,%d,%d\n", match, groupNames, len(match), len(groupNames))
 		for i, name := range groupNames {
 			if i != 0 {
 				m[name] = match[i]
