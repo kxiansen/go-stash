@@ -24,12 +24,13 @@ type (
 	}
 
 	Filter struct {
-		Action     string      `json:",options=drop|remove_field|transfer|grok|copy_field"`
+		Action     string      `json:",options=drop|remove_field|transfer|grok|copy_field|replace_str"`
 		Conditions []Condition `json:",optional"`
 		Fields     []string    `json:",optional"`
 		Field      string      `json:",optional"`
 		Target     string      `json:",optional"`
 		Match      string      `json:",optional"`
+		Gsub       [][]string  `json:",optional"`
 	}
 
 	KafkaConf struct {
