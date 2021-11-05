@@ -21,7 +21,7 @@ func GrokFilter(field, match_str string) FilterFunc {
 		groupNames := re.SubexpNames()
 		fmt.Printf("%v,%v,%d,%d\n", match, groupNames, len(match), len(groupNames))
 		for i, name := range groupNames {
-			if i != 0 {
+			if i != 0 && name != "" {
 				m[name] = match[i]
 			}
 		}
