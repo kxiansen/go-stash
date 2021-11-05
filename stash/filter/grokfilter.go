@@ -22,8 +22,12 @@ func GrokFilter(field, match_str string) FilterFunc {
 
 		defer func() {
 			fmt.Println("--------------------------------------------------------------------------------------")
+
 			fmt.Println(s)
 			fmt.Printf("match: \"%v\",groupNames: \"%v\",len(match): %d,len(groupNames): %d\n", match, groupNames, len(match), len(groupNames))
+			if err := recover(); err != nil {
+				fmt.Println(err) //这里的err其实就是panic传入的内容，"bug"
+			}
 			fmt.Println("--------------------------------------------------------------------------------------")
 		}()
 		for i, name := range groupNames {
