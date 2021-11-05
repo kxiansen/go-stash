@@ -25,17 +25,6 @@ func GrokFilter(field, match_str string) FilterFunc {
 			}
 		}
 
-		// fmt.Println(s)
-
-		// delete(m, field)
-		// if len(target) > 0 {
-		// 	m[target] = nm
-		// } else {
-		// 	for k, v := range nm {
-		// 		m[k] = v
-		// 	}
-		// }
-
 		return m
 	}
 }
