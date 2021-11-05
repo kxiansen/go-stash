@@ -21,14 +21,13 @@ func GrokFilter(field, match_str string) FilterFunc {
 		groupNames := re.SubexpNames()
 
 		defer func() {
-			fmt.Println("--------------------------------------------------------------------------------------")
-
-			fmt.Println(s)
-			fmt.Printf("match: \"%v\",groupNames: \"%v\",len(match): %d,len(groupNames): %d\n", match, groupNames, len(match), len(groupNames))
 			if err := recover(); err != nil {
+				fmt.Println("--------------------------------------------------------------------------------------")
+				fmt.Println(s)
+				fmt.Printf("match: \"%v\",groupNames: \"%v\",len(match): %d,len(groupNames): %d\n", match, groupNames, len(match), len(groupNames))
 				fmt.Println("[error]: ", err) //这里的err其实就是panic传入的内容，"bug"
+				fmt.Println("--------------------------------------------------------------------------------------")
 			}
-			fmt.Println("--------------------------------------------------------------------------------------")
 		}()
 		for i, name := range groupNames {
 			if i != 0 && name != "" {
