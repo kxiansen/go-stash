@@ -1,6 +1,9 @@
 package filter
 
-import "regexp"
+import (
+	"fmt"
+	"regexp"
+)
 
 func GrokFilter(field, match_str string) FilterFunc {
 	return func(m map[string]interface{}) map[string]interface{} {
@@ -13,8 +16,11 @@ func GrokFilter(field, match_str string) FilterFunc {
 		if !ok {
 			return m
 		}
-		reg := regexp.Compile(match_str)
-		reg.search(s)
+		re := regexp.MustCompile(match_str)
+		match := re.FindStringSubmatch(s)
+		groupName := re.SubexpNames()
+		fmt.Printf("%v,%v,%d,%d\n", match, groupName, len(match), len(groupName))
+
 		// fmt.Println(s)
 
 		// delete(m, field)
