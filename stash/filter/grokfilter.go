@@ -8,6 +8,8 @@ import (
 func GrokFilter(field, match_str string) FilterFunc {
 	return func(m map[string]interface{}) map[string]interface{} {
 		val, ok := m[field]
+		fmt.Println(val)
+
 		if !ok {
 			return m
 		}
@@ -16,7 +18,6 @@ func GrokFilter(field, match_str string) FilterFunc {
 		if !ok {
 			return m
 		}
-		fmt.Println(val)
 		re := regexp.MustCompile(match_str)
 		match := re.FindStringSubmatch(s)
 		groupNames := re.SubexpNames()
