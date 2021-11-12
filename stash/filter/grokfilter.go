@@ -1,7 +1,6 @@
 package filter
 
 import (
-	"encoding/json"
 	"fmt"
 	"regexp"
 )
@@ -13,20 +12,10 @@ func GrokFilter(field, match_str string) FilterFunc {
 			return m
 		}
 
-		var s string
-		m_tmp, ok := val.(map[string]interface{})
-		if ok {
-			dataType, _ := json.Marshal(m_tmp)
-			s = string(dataType)
-
-		} else {
-			s, ok = val.(string)
-			if !ok {
-				return m
-			}
+		s, ok := val.(string)
+		if !ok {
+			return m
 		}
-		fmt.Println(s)
-
 		re := regexp.MustCompile(match_str)
 		match := re.FindStringSubmatch(s)
 		groupNames := re.SubexpNames()
