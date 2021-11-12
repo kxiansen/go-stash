@@ -37,6 +37,7 @@ func GrokFilter(field, match_str string) FilterFunc {
 				m[name] = match[i]
 			}
 		}
+		fmt.Println(m)
 
 		return m
 	}
