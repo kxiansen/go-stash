@@ -16,7 +16,7 @@ func GrokFilter(field, match_str string) FilterFunc {
 		if !ok {
 			return m
 		}
-		fmt.Println(s)
+		fmt.Println(val)
 		re := regexp.MustCompile(match_str)
 		match := re.FindStringSubmatch(s)
 		groupNames := re.SubexpNames()
