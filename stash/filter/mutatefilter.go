@@ -9,14 +9,15 @@ import (
 
 func MutateFilter(Add_fields [][]string) FilterFunc {
 	return func(m map[string]interface{}) map[string]interface{} {
+		re1 := regexp.MustCompile(`^.*?%{\s*?(?P<d_field>\S+)\s*?}%.*`)
+		re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
 		for _, field := range Add_fields {
 			field_name := field[0]
 			value := field[1]
 			if strings.Contains(value, "%{") {
 
 				for {
-					re1 := regexp.MustCompile(`^.*?%{\s*?(?P<d_field>\S+)\s*?}%.*`)
-					re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
+
 					match := re1.FindStringSubmatch(value)
 					if len(match) >= 2 {
 						match = re1.FindStringSubmatch(value)
