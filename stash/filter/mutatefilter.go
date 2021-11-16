@@ -2,6 +2,7 @@ package filter
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -19,7 +20,6 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 					match := re1.FindStringSubmatch(value)
 					if len(match) >= 2 {
 						match = re1.FindStringSubmatch(value)
-						// fmt.Println("----------------------------------------------")
 						found := re2.FindString(value)
 						if found != "" {
 							switch v := m[match[1]].(type) {
@@ -27,6 +27,14 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
+								fmt.Println("----------------------------------------------")
+
+								fmt.Println(match)
+								fmt.Println(found)
+								fmt.Println(value)
+								fmt.Println(v)
+								fmt.Println("----------------------------------------------")
+
 								value = strings.Replace(value, found, v.(string), 1)
 							}
 						}
