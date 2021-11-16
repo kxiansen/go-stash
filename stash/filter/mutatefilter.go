@@ -17,6 +17,8 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 				re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
 				for {
 					match := re1.FindStringSubmatch(value)
+					fmt.Println(match)
+
 					fmt.Println(match[1])
 					if len(match) >= 2 {
 						found := re2.FindString(value)
