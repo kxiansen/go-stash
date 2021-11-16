@@ -20,6 +20,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 					fmt.Println(match)
 
 					fmt.Println(match[1])
+					fmt.Println(m)
 					fmt.Println(m[match[1]])
 					if len(match) >= 2 {
 						found := re2.FindString(value)
