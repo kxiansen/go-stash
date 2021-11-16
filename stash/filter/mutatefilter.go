@@ -41,6 +41,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 										panic("stop...")
 									}
 								}()
+								fmt.Printf("match: \"%v\",len(match): %d, found: \"%v\"\n", match, len(match), found)
 								value = strings.Replace(value, found, v.(string), 1)
 							}
 						}
