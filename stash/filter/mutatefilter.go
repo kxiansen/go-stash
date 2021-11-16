@@ -2,6 +2,7 @@ package filter
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -24,6 +25,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
+								fmt.Println(found, v)
 								value = strings.Replace(value, found, v.(string), 1)
 							}
 						}
