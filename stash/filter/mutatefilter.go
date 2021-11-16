@@ -18,7 +18,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 					//将%{}%中的字段取出
 					re1 := regexp.MustCompile(`.*?%{\s*?(?P<d_field>\S*?)\s*?}%.*`)
 					//将%{}%替换成map中对应字段的值
-					re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
+					re2 := regexp.MustCompile(`%{\s*?\S*?\s*?}%`)
 					match := re1.FindStringSubmatch(value)
 					if len(match) >= 2 {
 						match = re1.FindStringSubmatch(value)
