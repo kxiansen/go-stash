@@ -15,16 +15,16 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 			if strings.Contains(value, "%{") {
 				re1 := regexp.MustCompile(`.*%{\s*?(?P<d_field>\S+)\s*?}%.*`)
 				re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
+				match := re1.FindStringSubmatch(value)
 				for {
-					match := re1.FindStringSubmatch(value)
-					fmt.Println("----------------------------------------------")
-					fmt.Println(match)
-					fmt.Println(m)
-					fmt.Println(match[1])
-					fmt.Println(m[match[1]])
-					fmt.Println("----------------------------------------------")
-
 					if len(match) >= 2 {
+						match = re1.FindStringSubmatch(value)
+						fmt.Println("----------------------------------------------")
+						fmt.Println(match)
+						fmt.Println(m)
+						fmt.Println(match[1])
+						fmt.Println(m[match[1]])
+						fmt.Println("----------------------------------------------")
 						found := re2.FindString(value)
 						if found != "" {
 							switch v := m[match[1]].(type) {
