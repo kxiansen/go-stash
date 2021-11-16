@@ -33,7 +33,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 										fmt.Println("--------------------------------------------------------------------------------------")
 										fmt.Println("没有匹配到source_str: ", v)
 										fmt.Printf("\n")
-										fmt.Printf("match: \"%v\",len(match): %d\n, found: \"%v\"", match, len(match), found)
+										fmt.Printf("match: \"%v\",len(match): %d, found: \"%v\"\n", match, len(match), found)
 										fmt.Println("source data: ", m)
 										fmt.Println("[error]: ", err) //这里的err其实就是panic传入的内容，"bug"
 										fmt.Println("--------------------------------------------------------------------------------------")
