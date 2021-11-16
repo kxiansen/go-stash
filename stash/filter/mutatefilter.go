@@ -17,6 +17,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 				re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
 				for {
 					match := re1.FindStringSubmatch(value)
+					fmt.Println(match[1])
 					if len(match) >= 2 {
 						found := re2.FindString(value)
 						if found != "" {
@@ -25,9 +26,9 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
-								fmt.Println(m)
-								fmt.Println(found, ",", v)
-								fmt.Println(match)
+								// fmt.Println(m)
+								// fmt.Println(found, ",", v)
+								// fmt.Println(match)
 								value = strings.Replace(value, found, v.(string), 1)
 							}
 						}
