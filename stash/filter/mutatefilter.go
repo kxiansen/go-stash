@@ -1,6 +1,7 @@
 package filter
 
 import (
+	"encoding/json"
 	"regexp"
 	"strings"
 )
@@ -18,7 +19,13 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 					if len(match) >= 2 {
 						found := re2.FindString(value)
 						if found != "" {
-							value = strings.Replace(value, found, m[match[1]].(string), 1)
+							switch v := m[match[1]].(type) {
+							case map[string]interface{}:
+								vjson, _ := json.Marshal(v)
+								value = strings.Replace(value, found, string(vjson), 1)
+							default:
+								value = strings.Replace(value, found, v.(string), 1)
+							}
 						}
 						// value = re2.ReplaceAllString(value, m[match[1]].(string))
 					} else {
