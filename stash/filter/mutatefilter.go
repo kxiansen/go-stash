@@ -14,7 +14,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 			value := field[1]
 			if strings.Contains(value, "%{") {
 				for {
-					re1 := regexp.MustCompile(`.*?(%{\s*?(?P<d_field>\S+)\s*?}%)+?.*`)
+					re1 := regexp.MustCompile(`.*?(%{\s*?(?P<d_field>\S+)\s*?}%)+?.*?`)
 					re2 := regexp.MustCompile(`%{\s*?\S+\s*?}%?`)
 					match := re1.FindStringSubmatch(value)
 					if len(match) >= 2 {
@@ -25,7 +25,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
-								fmt.Println(found, v)
+								fmt.Println(found, ",", v)
 								fmt.Println(match)
 								value = strings.Replace(value, found, v.(string), 1)
 							}
