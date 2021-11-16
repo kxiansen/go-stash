@@ -25,7 +25,7 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
-								fmt.Println(value)
+								fmt.Println(m)
 								fmt.Println(found, ",", v)
 								fmt.Println(match)
 								value = strings.Replace(value, found, v.(string), 1)
