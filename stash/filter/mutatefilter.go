@@ -22,31 +22,34 @@ func MutateFilter(Add_fields [][]string) FilterFunc {
 					if len(match) >= 2 {
 						match = re1.FindStringSubmatch(value)
 						found := re2.FindString(value)
+
 						if found != "" {
 							switch v := m[match[1]].(type) {
 							case map[string]interface{}:
 								vjson, _ := json.Marshal(v)
 								value = strings.Replace(value, found, string(vjson), 1)
 							default:
-								defer func() {
-									if err := recover(); err != nil {
-										fmt.Println("--------------------------------------------------------------------------------------")
-										fmt.Println("没有匹配到source_str: ", v)
-										fmt.Printf("\n")
-										fmt.Printf("match: \"%v\",len(match): %d, found: \"%v\"\n", match, len(match), found)
-										fmt.Println("source data: ", m)
-										fmt.Println("[error]: ", err) //这里的err其实就是panic传入的内容，"bug"
-										fmt.Println("--------------------------------------------------------------------------------------")
-										panic("stop...")
-									}
-								}()
+
 								value = strings.Replace(value, found, v.(string), 1)
 							}
+							defer func() {
+								if err := recover(); err != nil {
+									fmt.Println("--------------------------------------------------------------------------------------")
+									fmt.Println("没有匹配到source_str: ")
+									fmt.Printf("\n")
+									fmt.Printf("match: \"%v\",len(match): %d, found: \"%v\"\n", match, len(match), found)
+									fmt.Println("source data: ", m)
+									fmt.Println("[error]: ", err) //这里的err其实就是panic传入的内容，"bug"
+									fmt.Println("--------------------------------------------------------------------------------------")
+									panic("stop...")
+								}
+							}()
 						}
 						// value = re2.ReplaceAllString(value, m[match[1]].(string))
 					} else {
 						break
 					}
+
 				}
 			}
 			m[field_name] = value
