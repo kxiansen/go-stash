@@ -19,6 +19,7 @@ Clusters:
   Filters:
     - Action: grok
       Field: message
+      #(?P<user>\S*?): 分组匹配，把匹配到的值放入user中，  *?:非贪婪模式
       Match: '^# User@Host: (?P<user>\S*?)\[\S+\] @ (?P<clienthost>\S*?) \[(?P<clientip>\S*?)\].*?(\n#.*\n|\n)# Query_time: (?P<query_time>\S*?)\s+Lock_time: (?P<lock_time>\S*?)\s+Rows_sent: (?P<rows_sent>\S*?)\s+Rows_examined: (?P<rows_examined>\S*?)(\s+Rows_affected: (?P<rows_affected>\S*?)|)\n(.*\n|)(use\s+(?P<dbname>\S+);\n|)SET\s+timestamp=(?P<timestamp_mysql>\S+?);\n(?P<query>[\s\S]*)'
 
 
