@@ -23,14 +23,11 @@ func GrokFilter(field, match_str string) FilterFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				fmt.Println("--------------------------------------------------------------------------------------")
-				fmt.Println("没有匹配到source_str: ")
-				fmt.Println(s)
-				fmt.Printf("\n")
+				fmt.Println("[error]: ", err)
+				fmt.Println("source: ", m)
 				fmt.Printf("match: \"%v\",groupNames: \"%v\",len(match): %d,len(groupNames): %d\n", match, groupNames, len(match), len(groupNames))
-				fmt.Println("source data: ", m)
-				fmt.Println("[error]: ", err) //这里的err其实就是panic传入的内容，"bug"
 				fmt.Println("--------------------------------------------------------------------------------------")
-				panic("stop...")
+				// panic("stop...")
 			}
 		}()
 		for i, name := range groupNames {
