@@ -1,0 +1,80 @@
+Clusters:
+- Input:
+    Kafka:
+      Name: mysqlSlowLog_gostash
+      Brokers:
+        - "mysql-backup02.corp.cootek.com:9092"
+        - "mysql-backup02.corp.cootek.com:9093"
+        - "mysql-backup02.corp.cootek.com:9094"
+      Topics:
+        - mysqlSlowLog
+      Group: mysqlSlowlog_pro_2
+      Conns: 4
+      Consumers: 2
+      Processors: 1
+      MinBytes: 1048576
+      MaxBytes: 10485760
+      #Offset: first
+      Offset: last
+  Filters:
+    - Action: grok
+      Field: message
+      Match: '^# User@Host: (?P<user>\S*?)\[\S+\] @ (?P<clienthost>\S*?) \[(?P<clientip>\S*?)\].*?(\n#.*\n|\n)# Query_time: (?P<query_time>\S*?)\s+Lock_time: (?P<lock_time>\S*?)\s+Rows_sent: (?P<rows_sent>\S*?)\s+Rows_examined: (?P<rows_examined>\S*?)(\s+Rows_affected: (?P<rows_affected>\S*?)|)\n(.*\n|)(use\s+(?P<dbname>\S+);\n|)SET\s+timestamp=(?P<timestamp_mysql>\S+?);\n(?P<query>[\s\S]*)'
+
+
+    - Action: copy_field
+      Field: query
+      Target: query_md5
+
+    - Action: replace_str
+      Gsub:
+        - ["query_md5", "='(.|\n)*?'",'= S']
+        - ["query_md5", '= *\d*\.{0,1}\d+','= N']
+        - ["query_md5", "'(.|\n)*?'", 'S']
+        - ["query_md5", '-?\d*\.{0,1}\d+', 'N']
+        - ["query_md5", '\n|\t', " "]
+        - ["query_md5", " +", " "]
+
+  #  - Action: transfer
+  #    Field: log
+
+    - Action: mutate
+      Add_fields:
+        - ["port","%{log}%"] 
+        - ["hostname","%{host}%"] 
+
+    - Action: grok
+      Field: port 
+      Match: '.*?/db/(?P<port>\S*?)/logs/.*'
+
+    - Action: grok
+      Field: hostname
+      Match: '.*?"name"\s*?:\s*?"\s*?(?P<hostname>\S*?)\s*?".*'
+
+    - Action: mutate
+      Add_fields:
+        - ['instance','%{hostname}%:%{port}%']
+
+
+    - Action: remove_field
+      Fields:
+        - agent
+        - fileset
+        - ecs
+        - event
+        - service
+        - input
+        - "@metadata"
+        # - log
+        - rows_affected
+        - port
+        - clienthost
+        - host
+        - hostname
+  Output:
+    ElasticSearch:
+      Hosts:
+        - "http://mysql-backup.corp.cootek.com:9200"
+        - "http://mysql-backup02.corp.cootek.com:9200"
+        - "http://mysql-backup03.corp.cootek.com:9200"
+      Index: "go-stash-mysql_slowlogs-{{yyyy-MM-dd}}"
